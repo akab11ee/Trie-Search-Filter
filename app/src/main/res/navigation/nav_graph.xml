@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/cityFragment">
+
+    <fragment
+        android:id="@+id/cityFragment"
+        android:name="com.example.citysearchapp.ui.city.CityFragment"
+        android:label="@string/fragment_home_label"
+        tools:layout="@layout/fragment_city">
+        <action
+            android:id="@+id/action_click"
+            app:destination="@id/cityDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cityDetailFragment"
+        android:name="com.example.citysearchapp.ui.citydetail.CityDetailFragment"
+        android:label="@string/fragment_map_label">
+
+        <argument
+            android:name="coordinate"
+            app:argType="com.example.citysearchapp.data.entity.Coordinate" />
+        <argument
+            android:name="cityName"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

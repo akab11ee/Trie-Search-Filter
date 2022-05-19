@@ -17,7 +17,7 @@ We have a list of cities containing around 200k entries in JSON format. Each ent
 ```
 
 Your task is to:
-* Load the list of cities from [here](cities.json).
+* Load the list of cities from [here](app/src/main/res/raw/cities.json).
 * Be able to filter the results by a given prefix string, following these requirements:
      * Follow the prefix definition specified in the clarifications section below.
      * Implement a search algorithm optimised for fast runtime searches. Initial loading time of the app does not matter.
