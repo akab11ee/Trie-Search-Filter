@@ -53,8 +53,8 @@ class CityViewModel constructor(
     private fun loadCities() {
         viewModelScope.launch(getAppDispatcher()) {
 
-            val persons = loadCitiesUseCase()
-            val loaded = insertCityUseCase(persons)
+            val cities = loadCitiesUseCase()
+            val loaded = insertCityUseCase(cities)
 
             if (loaded) {
                 val result = getAllCityUseCase()

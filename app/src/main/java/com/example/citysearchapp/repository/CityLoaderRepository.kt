@@ -10,11 +10,11 @@ import com.example.citysearchapp.utils.mapper.mapToDomainCity
  * @Date: 19 May 2022
  */
 
-class CityLoaderRepository constructor(private val filePersonLoader: IFileCityLoader) :
+class CityLoaderRepository constructor(private val fileCityLoader: IFileCityLoader) :
     ICityLoaderRepository {
 
     override suspend fun load(): List<City> {
-        return filePersonLoader.load().mapToDomainCity()
+        return fileCityLoader.load().mapToDomainCity()
     }
 
 }
