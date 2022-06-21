@@ -2,38 +2,50 @@ package com.example.citysearchapp.usecase
 
 import com.example.citysearchapp.data.entity.City
 import com.example.citysearchapp.data.entity.Coordinate
-import com.example.citysearchapp.repository.interfaces.ICityRepository
+import com.example.citysearchapp.repository.interfaces.CityRepository
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
-import org.mockito.kotlin.any
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class InsertCityUseCaseTest {
     private lateinit var insertCityUseCase: InsertCityUseCase
-    private lateinit var cityRepository: ICityRepository
+    private lateinit var cityRepository: CityRepository
 
     @Before
     fun setUp() {
-        cityRepository = Mockito.mock(ICityRepository::class.java)
+        cityRepository = mockk(relaxUnitFun = true)
         insertCityUseCase = InsertCityUseCase(cityRepository)
     }
 
     @Test
     fun `insert city list must call repository insert succeed`(): Unit = runBlocking {
-        insertCityUseCase(
+
+        every {
+            runBlocking {
+                cityRepository.insert(any())
+            }
+        } returns true
+
+        insertCityUseCase.invoke(
             arrayListOf(
                 City("IN", "Stuttgart", 19, Coordinate(44.549999, 34.283333)),
                 City("USA", "New York", 42, Coordinate(44.549999, 34.283333)),
             )
         )
-        verify(cityRepository, times(1)).insert(any())
+
+
+        verify(exactly = 1) {
+            runBlocking {
+                cityRepository.insert(any())
+            }
+        }
     }
 }

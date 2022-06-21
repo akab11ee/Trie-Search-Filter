@@ -7,18 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citysearchapp.R
 import com.example.citysearchapp.data.entity.City
 import com.example.citysearchapp.databinding.ItemCityBinding
-import com.example.citysearchapp.ui.city.interfaces.IOnItemClickListener
+import com.example.citysearchapp.ui.city.interfaces.OnItemClickListener
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class CityAdapter :
     RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
     private var listCity: MutableList<City> = mutableListOf()
-    lateinit var onItemClickListener: IOnItemClickListener
+    lateinit var onItemClickListener: OnItemClickListener
     fun updateItems(items: List<City>) {
         items.forEach { this.listCity.add(it) }
         notifyDataSetChanged()

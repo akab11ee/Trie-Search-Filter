@@ -4,18 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.citysearchapp.base.BaseViewModel
+import com.example.citysearchapp.data.entity.City
 import com.example.citysearchapp.ui.event.CityEvent
 import com.example.citysearchapp.ui.state.CityState
 import com.example.citysearchapp.usecase.GetAllCityUseCase
 import com.example.citysearchapp.usecase.InsertCityUseCase
 import com.example.citysearchapp.usecase.LoadCitiesUseCase
 import com.example.citysearchapp.usecase.SearchCityUseCase
-import kotlinx.coroutines.CoroutineDispatcher
+import com.example.citysearchapp.utils.coroutines.DispatcherProvider
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class CityViewModel constructor(
@@ -23,7 +26,7 @@ class CityViewModel constructor(
     private val insertCityUseCase: InsertCityUseCase,
     private val getAllCityUseCase: GetAllCityUseCase,
     private val searchCityUseCase: SearchCityUseCase,
-    dispatcher: CoroutineDispatcher
+    dispatcher: DispatcherProvider
 ) :
     BaseViewModel(dispatcher) {
 
@@ -41,26 +44,42 @@ class CityViewModel constructor(
                 loadCities()
             }
             is CityEvent.Search -> {
-                viewModelScope.launch(getAppDispatcher()) {
+                viewModelScope.launch(coroutineExceptionHandler) {
                     _state.value = CityState(loading = true)
-                    val result = searchCityUseCase(event.query)
-                    _state.value = CityState(listCity = result)
+                    searchCityUseCase.invoke(event.query).flowOn(getAppDispatcher().io())
+                        .collect { listCity ->
+                            _state.value = CityState(listCity = listCity)
+                        }
                 }
             }
         }
     }
 
+    private fun insertCities(listCities: List<City>) {
+        viewModelScope.launch(coroutineExceptionHandler) {
+            insertCityUseCase.invoke(listCities).flowOn(getAppDispatcher().io()).collect { loaded ->
+                getAllCities(loaded)
+            }
+        }
+    }
+
+    private fun getAllCities(loaded: Boolean) {
+        if (loaded) {
+            viewModelScope.launch(coroutineExceptionHandler) {
+                getAllCityUseCase.invoke().flowOn(getAppDispatcher().io()).collect { result ->
+                    _state.value = CityState(listCity = result)
+                }
+            }
+        } else {
+            _state.value = CityState(retry = true)
+        }
+    }
+
     private fun loadCities() {
-        viewModelScope.launch(getAppDispatcher()) {
+        viewModelScope.launch(coroutineExceptionHandler) {
 
-            val cities = loadCitiesUseCase()
-            val loaded = insertCityUseCase(cities)
-
-            if (loaded) {
-                val result = getAllCityUseCase()
-                _state.value = CityState(listCity = result)
-            } else {
-                _state.value = CityState(retry = true)
+            loadCitiesUseCase.invoke().flowOn(getAppDispatcher().io()).collect { listCity ->
+                insertCities(listCity)
             }
         }
     }

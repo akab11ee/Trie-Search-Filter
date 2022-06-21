@@ -1,34 +1,53 @@
 package com.example.citysearchapp.usecase
 
-import com.example.citysearchapp.repository.interfaces.ICityRepository
+import com.example.citysearchapp.data.entity.City
+import com.example.citysearchapp.data.entity.Coordinate
+import com.example.citysearchapp.repository.interfaces.CityRepository
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class SearchCityUseCaseTest {
 
     private lateinit var searchCityUseCase: SearchCityUseCase
-    private lateinit var cityRepository: ICityRepository
+    private lateinit var cityRepository: CityRepository
 
 
     @Before
     fun setUp() {
-        cityRepository = Mockito.mock(ICityRepository::class.java)
+        cityRepository = mockk(relaxUnitFun = true)
         searchCityUseCase = SearchCityUseCase(cityRepository)
     }
 
     @Test
     fun `search must call repository search succeed`(): Unit = runBlocking {
-        searchCityUseCase("k")
-        verify(cityRepository, times(1)).search("k")
+
+        val data = arrayListOf(
+            City("IN", "Stuttgart", 19, Coordinate(44.549999, 34.283333)),
+            City("USA", "New York", 42, Coordinate(44.549999, 34.283333)),
+        )
+
+        every {
+            runBlocking {
+                cityRepository.search("k")
+            }
+        } returns data
+
+        searchCityUseCase.invoke("k")
+
+        verify(exactly = 1) {
+            runBlocking {
+                cityRepository.search("k")
+            }
+        }
     }
 
 }

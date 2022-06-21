@@ -1,15 +1,20 @@
 package com.example.citysearchapp.usecase
 
 import com.example.citysearchapp.data.entity.City
-import com.example.citysearchapp.repository.interfaces.ICityLoaderRepository
+import com.example.citysearchapp.repository.interfaces.CityLoaderRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class LoadCitiesUseCase constructor(
-    private val cityLoaderRepository: ICityLoaderRepository
+    private val cityLoaderRepository: CityLoaderRepository
 ) {
-    suspend operator fun invoke(): List<City> = cityLoaderRepository.load()
+    suspend fun invoke(): Flow<List<City>> {
+        val result = cityLoaderRepository.load()
+        return flow { emit(result) }
+    }
 }

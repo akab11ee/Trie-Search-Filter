@@ -1,38 +1,40 @@
 package com.example.citysearchapp.repository
 
-import com.example.citysearchapp.data.IFileCityLoader
+import com.example.citysearchapp.data.FileCityLoader
 import com.example.citysearchapp.data.entity.CityEntity
 import com.example.citysearchapp.data.entity.CoordinateEntity
-import com.example.citysearchapp.repository.interfaces.ICityLoaderRepository
+import com.example.citysearchapp.repository.interfaces.CityLoaderRepository
 import com.google.common.truth.Truth.assertThat
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class CityLoaderRepositoryTest {
 
-    private lateinit var fileCityLoader: IFileCityLoader
-    private lateinit var cityLoaderRepository: ICityLoaderRepository
+    private lateinit var fileCityLoader: FileCityLoader
+    private lateinit var cityLoaderRepository: CityLoaderRepository
 
 
     @Before
     fun setUp() {
-        fileCityLoader = Mockito.mock(IFileCityLoader::class.java)
-        Mockito.`when`(fileCityLoader.load()).then {
+        fileCityLoader = mockk(relaxUnitFun = true)
+        every { fileCityLoader.load() }.returns(
             arrayListOf(
                 CityEntity("IN", "Chandigarh", 25, CoordinateEntity(44.549999, 34.283333)),
                 CityEntity("IN", "Stuttgart", 19, CoordinateEntity(44.549999, 34.283333)),
                 CityEntity("USA", "New York", 42, CoordinateEntity(44.549999, 34.283333)),
                 CityEntity("SW", "Stockholm", 23, CoordinateEntity(44.549999, 34.283333)),
             )
-        }
-        cityLoaderRepository = CityLoaderRepository(fileCityLoader)
+        )
+
+        cityLoaderRepository = CityLoaderRepositoryImpl(fileCityLoader)
     }
 
     @Test

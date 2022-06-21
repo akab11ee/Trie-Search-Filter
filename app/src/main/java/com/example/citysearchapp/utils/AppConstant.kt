@@ -2,7 +2,7 @@ package com.example.citysearchapp.utils
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 const val SOMETHING_WENT_WRONG = "Something went wrong"

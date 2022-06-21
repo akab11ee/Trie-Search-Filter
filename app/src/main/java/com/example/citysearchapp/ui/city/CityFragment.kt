@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.citysearchapp.base.BaseFragment
 import com.example.citysearchapp.data.entity.City
 import com.example.citysearchapp.databinding.FragmentCityBinding
-import com.example.citysearchapp.ui.city.interfaces.IOnItemClickListener
+import com.example.citysearchapp.ui.city.interfaces.OnItemClickListener
 import com.example.citysearchapp.ui.event.CityEvent
 import com.example.citysearchapp.utils.navigate
 import kotlinx.android.synthetic.main.fragment_city.*
@@ -15,11 +15,11 @@ import java.util.*
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  * Fragment shows the list of city over google maps
  */
 
-class CityFragment : BaseFragment<FragmentCityBinding, CityViewModel>(), IOnItemClickListener {
+class CityFragment : BaseFragment<FragmentCityBinding, CityViewModel>(), OnItemClickListener {
 
     override val viewModel: CityViewModel by viewModel()
 

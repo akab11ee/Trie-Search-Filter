@@ -1,14 +1,20 @@
 package com.example.citysearchapp.usecase
 
-import com.example.citysearchapp.repository.interfaces.ICityRepository
+import com.example.citysearchapp.data.entity.City
+import com.example.citysearchapp.repository.interfaces.CityRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class GetAllCityUseCase constructor(
-    private val cityRepository: ICityRepository
+    private val cityRepository: CityRepository
 ) {
-    suspend operator fun invoke() = cityRepository.getAll()
+    suspend fun invoke(): Flow<List<City>> {
+        val result = cityRepository.getAll()
+        return flow { emit(result) }
+    }
 }

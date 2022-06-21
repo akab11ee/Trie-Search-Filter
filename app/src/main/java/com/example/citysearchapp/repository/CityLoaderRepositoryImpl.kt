@@ -1,17 +1,17 @@
 package com.example.citysearchapp.repository
 
-import com.example.citysearchapp.data.IFileCityLoader
+import com.example.citysearchapp.data.FileCityLoader
 import com.example.citysearchapp.data.entity.City
-import com.example.citysearchapp.repository.interfaces.ICityLoaderRepository
+import com.example.citysearchapp.repository.interfaces.CityLoaderRepository
 import com.example.citysearchapp.utils.mapper.mapToDomainCity
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
-class CityLoaderRepository constructor(private val fileCityLoader: IFileCityLoader) :
-    ICityLoaderRepository {
+class CityLoaderRepositoryImpl constructor(private val fileCityLoader: FileCityLoader) :
+    CityLoaderRepository {
 
     override suspend fun load(): List<City> {
         return fileCityLoader.load().mapToDomainCity()

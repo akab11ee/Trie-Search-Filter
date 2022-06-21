@@ -2,14 +2,14 @@ package com.example.citysearchapp.repository
 
 import com.example.citysearchapp.data.entity.City
 import com.example.citysearchapp.data.trie.Trie
-import com.example.citysearchapp.repository.interfaces.ICityRepository
+import com.example.citysearchapp.repository.interfaces.CityRepository
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
-class CityRepository constructor(private val trie: Trie<City>) : ICityRepository {
+class CityRepositoryImpl constructor(private val trie: Trie<City>) : CityRepository {
     override suspend fun insert(cityList: List<City>): Boolean {
         return trie.insert(cityList)
     }

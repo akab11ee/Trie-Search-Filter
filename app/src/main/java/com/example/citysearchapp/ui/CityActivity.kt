@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_city.*
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 class CityActivity : BaseActivity<ActivityCityBinding>() {

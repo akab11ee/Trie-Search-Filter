@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel> : Fragment(),

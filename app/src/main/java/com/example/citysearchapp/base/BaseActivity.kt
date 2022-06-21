@@ -8,7 +8,7 @@ import com.example.citysearchapp.utils.toastL
 
 /**
  * @Author: Akash Abhishek
- * @Date: 19 May 2022
+ * @Date: 22 June 2022
  */
 
 abstract class BaseActivity<VB : ViewBinding> :
@@ -16,7 +16,7 @@ abstract class BaseActivity<VB : ViewBinding> :
 
     abstract fun getViewBinding(): VB
     private var _binding: ViewBinding? = null
-    protected val binding: VB
+    private val binding: VB
         get() = _binding as VB
 
     //Initialize UI and listeners
