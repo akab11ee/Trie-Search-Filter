@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_city.*
 
 class CityActivity : BaseActivity<ActivityCityBinding>() {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     override fun getViewBinding(): ActivityCityBinding = ActivityCityBinding.inflate(layoutInflater)
 
